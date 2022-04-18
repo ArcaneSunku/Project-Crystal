@@ -1,0 +1,6 @@
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceCompatibility = 17
+sourceSets.main.java.srcDirs = ["java/"]
+
+eclipse.project.name = appName + "-engine"
