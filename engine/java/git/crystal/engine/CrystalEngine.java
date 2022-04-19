@@ -1,6 +1,6 @@
 package git.crystal.engine;
 
-import git.crystal.engine.gfx.Window;
+import git.crystal.engine.render.ui.Window;
 import git.crystal.engine.utils.Timer;
 import org.lwjgl.glfw.GLFWErrorCallback;
 

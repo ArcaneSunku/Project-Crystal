@@ -2,8 +2,8 @@ package git.crystal.example;
 
 import git.crystal.engine.CrystalEngine;
 import git.crystal.engine.IGame;
-import git.crystal.engine.gfx.Shader;
-import git.crystal.engine.gfx.Window;
+import git.crystal.engine.render.Shader;
+import git.crystal.engine.render.ui.Window;
 
 public class Example implements IGame {
 

@@ -1,4 +1,4 @@
-package git.crystal.engine.gfx;
+package git.crystal.engine.render.ui;
 
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;

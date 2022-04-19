@@ -1,4 +1,4 @@
-package git.crystal.engine.gfx;
+package git.crystal.engine.render;
 
 import git.crystal.engine.utils.Files;
 
@@ -38,18 +38,17 @@ public class Shader {
 
         if (vertShader != 0) {
             glDetachShader(m_programId, vertShader);
+            glDeleteShader(vertShader);
         }
         if (fragmentShader != 0) {
             glDetachShader(m_programId, fragmentShader);
+            glDeleteShader(fragmentShader);
         }
 
         glValidateProgram(m_programId);
         if (glGetProgrami(m_programId, GL_VALIDATE_STATUS) == GL_FALSE) {
             System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(m_programId, 1024));
         }
-
-        glDeleteShader(vertShader);
-        glDeleteShader(fragmentShader);
     }
 
     public void bind() {
@@ -67,6 +66,14 @@ public class Shader {
             glDeleteProgram(m_programId);
     }
 
+    /**
+     * Creates the shader we want out of the source we pass to it. This handles everything we need
+     * to use our Shaders with our Shader Program.
+     *
+     * @param shaderSource the long String source of the Shader
+     * @param shaderType the type of shader we'll create and compile
+     * @return the Shader ID we use to interact with the Program
+     */
     private int createShader(String shaderSource, int shaderType) {
         int shaderId = glCreateShader(shaderType);
         if(shaderId == GL_FALSE)
