@@ -7,7 +7,7 @@ ACE is a project meant to bring OpenGL and Game Development to the hands of the 
 holding their hands too much. 
 
 The resources that are used to create this are as follows:
-* GLFW (Framework)
+* LWJGL 3 (Collection of APIs)
 * ImGUI (Java Binding for C++ based ImGUI)
 * [Learn OpenGL by Joey de Vries](https://learnopengl.com/ "Learn OpenGL")
 * [3D Game Development w/ LWJGL 3](https://lwjglgamedev.gitbooks.io/3d-game-development-with-lwjgl/content/ "3D Game Development w/ LWJGL 3")
