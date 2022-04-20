@@ -19,8 +19,10 @@ public interface IGame {
     /**
      * This method is where you will want to call any logical or input logic. Implementing this is important
      * for more than just input, but also changing variables that could be used by our renderer.
+     *
+     * @param deltaTime 1 / UPS or rather 1 divided by our desired Updates Per Second. This could be different or fixed
      */
-    void update();
+    void update(float deltaTime);
 
     /**
      * This method handles all of our rendering logic directly. Implementing this is important for every visual aspect

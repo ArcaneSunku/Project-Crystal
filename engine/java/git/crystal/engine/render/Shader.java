@@ -1,9 +1,16 @@
 package git.crystal.engine.render;
 
 import git.crystal.engine.utils.Files;
+import org.joml.Matrix4f;
+import org.lwjgl.system.MemoryStack;
+
+import java.nio.FloatBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.lwjgl.opengl.GL11C.GL_FALSE;
 import static org.lwjgl.opengl.GL20C.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
 
 /**
  * Represents an instance of a Shader Program.
@@ -14,11 +21,14 @@ import static org.lwjgl.opengl.GL20C.*;
 
 public class Shader {
 
+    private final Map<String, Integer> m_Uniforms;
     private final String m_VertexFile, m_FragmentFile;
 
     private int m_programId;
 
     public Shader(String vertexFile, String fragmentFile) {
+        m_Uniforms = new HashMap<>();
+
         m_VertexFile = vertexFile;
         m_FragmentFile = fragmentFile;
     }
@@ -33,7 +43,7 @@ public class Shader {
 
         glLinkProgram(m_programId);
         if (glGetProgrami(m_programId, GL_LINK_STATUS) == GL_FALSE) {
-            throw new RuntimeException("Error linking Shader code: " + glGetProgramInfoLog(m_programId, 1024));
+            throw new RuntimeException(String.format("Error linking Shader code: %s", glGetProgramInfoLog(m_programId, 1024)));
         }
 
         if (vertShader != 0) {
@@ -46,9 +56,8 @@ public class Shader {
         }
 
         glValidateProgram(m_programId);
-        if (glGetProgrami(m_programId, GL_VALIDATE_STATUS) == GL_FALSE) {
-            System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(m_programId, 1024));
-        }
+        if (glGetProgrami(m_programId, GL_VALIDATE_STATUS) == GL_FALSE)
+            System.err.printf("Warning validating Shader code: %s%n", glGetProgramInfoLog(m_programId, 1024));
     }
 
     public void bind() {
@@ -64,6 +73,31 @@ public class Shader {
 
         if(m_programId != 0)
             glDeleteProgram(m_programId);
+    }
+
+    public void createUniform(String uniformName) {
+        int location = glGetUniformLocation(m_programId, uniformName);
+        if(location < 0) {
+            System.err.printf("Could not find uniform: [%s]%n", uniformName);
+            return;
+        } else if(m_Uniforms.containsKey(uniformName)) {
+            System.err.printf("Uniform [%s] already exists!%n", uniformName);
+            return;
+        }
+
+        m_Uniforms.put(uniformName, location);
+    }
+
+    public void setUniform(String uniformName, Matrix4f value) {
+        try (MemoryStack stack = stackPush()) {
+            FloatBuffer buffer = stack.mallocFloat(16);
+            value.get(buffer);
+            glUniformMatrix4fv(getUniformLocation(uniformName), false, buffer);
+        }
+    }
+
+    private int getUniformLocation(String uniformName) {
+        return m_Uniforms.get(uniformName);
     }
 
     /**
