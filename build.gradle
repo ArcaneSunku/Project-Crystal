@@ -22,7 +22,7 @@ buildscript {
 allprojects {
     apply plugin: "eclipse"
 
-    version = 'v0.01-INDEV'
+    version = '0.01'
     ext {
         appName = "arcane-crystal"
         lwjglVersion = "3.3.0"

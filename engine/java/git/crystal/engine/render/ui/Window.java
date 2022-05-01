@@ -7,6 +7,7 @@ import org.lwjgl.system.MemoryStack;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -69,8 +70,17 @@ public class Window {
         }
 
         glfwMakeContextCurrent(m_glfwWindow);
-        glfwSwapInterval(m_Settings.useVSync ? 1 : 0);
+        glfwSwapInterval(m_Settings.useVSync ? m_Settings.vBlanks : 0);
         GL.createCapabilities();
+
+        glfwSetWindowSizeCallback(m_glfwWindow, ((window, width, height) -> {
+            Instance().getSettings().width = width;
+            Instance().getSettings().height = height;
+        }));
+
+        glfwSetFramebufferSizeCallback(m_glfwWindow, (((window, width, height) -> {
+            glViewport(0, 0, width, height);
+        })));
 
         return true;
     }
@@ -96,11 +106,17 @@ public class Window {
         return glfwWindowShouldClose(m_glfwWindow);
     }
 
+
+    public long glfwWindow() {
+        return m_glfwWindow;
+    }
+
     public void setSettings(Settings settings) {
         m_Settings.title = settings.title;
 
         m_Settings.width = settings.width;
         m_Settings.height = settings.height;
+        m_Settings.vBlanks = settings.vBlanks;
 
         m_Settings.useVSync = settings.useVSync;
         m_Settings.resizable = settings.resizable;
@@ -123,6 +139,7 @@ public class Window {
 
         public int width = 860;
         public int height = 480;
+        public int vBlanks = 1;
 
         public boolean useVSync = true;
         public boolean resizable = false;

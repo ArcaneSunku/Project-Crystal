@@ -59,7 +59,7 @@ runtime {
     distDir = file(buildDir)
 
     jpackage {
-        jpackageHome = '%JAVA_HOME%'
+        jpackageHome = 'C:/Program Files/Eclipse Adoptium/jdk-17.0.2.8-hotspot'
         mainJar = dist.archiveFileName.get()
         mainClass = project.mainClassName
         if (osName.contains('windows')) {

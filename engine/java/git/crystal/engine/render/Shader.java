@@ -88,6 +88,10 @@ public class Shader {
         m_Uniforms.put(uniformName, location);
     }
 
+    public void setUniform(String uniformName, int value) {
+        glUniform1i(getUniformLocation(uniformName), value);
+    }
+
     public void setUniform(String uniformName, Matrix4f value) {
         try (MemoryStack stack = stackPush()) {
             FloatBuffer buffer = stack.mallocFloat(16);

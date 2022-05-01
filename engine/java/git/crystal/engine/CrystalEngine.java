@@ -1,5 +1,7 @@
 package git.crystal.engine;
 
+import git.crystal.engine.input.KeyboardInput;
+import git.crystal.engine.input.MouseInput;
 import git.crystal.engine.render.ui.Window;
 import git.crystal.engine.utils.Timer;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -9,6 +11,7 @@ import java.util.logging.Logger;
 
 import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * The main bread and butter, this class holds all of our logic for our "Engine" to function with any external project.
@@ -23,7 +26,7 @@ import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 public class CrystalEngine implements Runnable {
 
-    private static final int TARGET_FPS = 75;
+    private static final int TARGET_FPS = 120;
     private static final int TARGET_UPS = 60;
 
     private final Timer m_Timer;
@@ -95,6 +98,11 @@ public class CrystalEngine implements Runnable {
             stop();
         }
 
+        glEnable(GL_DEPTH_TEST);
+
+        KeyboardInput.Instance().init();
+        MouseInput.Instance().init();
+
         m_Timer.start();
         m_game.initialize();
         m_Window.display();
@@ -109,6 +117,7 @@ public class CrystalEngine implements Runnable {
         float interval = 1f / TARGET_UPS;
 
         while(mv_running) {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             if(m_Window.shouldClose()) {
                 mv_running = false;
             }
@@ -117,13 +126,12 @@ public class CrystalEngine implements Runnable {
             accumulator += delta;
 
             while(accumulator >= interval) {
-                update();
+                update(accumulator);
                 m_Timer.updateUPS();
                 accumulator -= interval;
             }
 
             alpha = accumulator / interval;
-
             render(alpha);
 
             m_Timer.updateFPS();
@@ -142,8 +150,9 @@ public class CrystalEngine implements Runnable {
         }
     }
 
-    private void update() {
-        m_game.update();
+    private void update(float deltaTime) {
+        MouseInput.Instance().update();
+        m_game.update(deltaTime);
         m_Timer.updateTimerCount();
     }
 
