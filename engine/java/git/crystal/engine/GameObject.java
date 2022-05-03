@@ -1,6 +1,6 @@
 package git.crystal.engine;
 
-import git.crystal.engine.render.Mesh;
+import git.crystal.engine.render.mesh.Mesh;
 import org.joml.Vector3f;
 
 /**

@@ -102,6 +102,14 @@ public class Window {
             glfwDestroyWindow(m_glfwWindow);
     }
 
+    public void updateDisplayTitle(String updatedTitle) {
+        glfwSetWindowTitle(m_glfwWindow, updatedTitle);
+    }
+
+    public void closeWindow() {
+        glfwSetWindowShouldClose(m_glfwWindow, true);
+    }
+
     public boolean shouldClose() {
         return glfwWindowShouldClose(m_glfwWindow);
     }

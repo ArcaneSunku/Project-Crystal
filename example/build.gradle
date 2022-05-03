@@ -1,13 +1,14 @@
 plugins { id 'org.beryx.runtime' version '1.12.7' }
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceCompatibility = 17
 sourceSets.main.java.srcDirs = ["java/"]
 sourceSets.main.resources.srcDirs = ["resources/"]
 
 eclipse.project.name = appName + "-example"
 
+sourceCompatibility = 17
 mainClassName = "git.crystal.example.Example"
+
 def osName = System.getProperty('os.name').toLowerCase(Locale.ROOT);
 project.ext.assetsDir = new File("resources/")
 

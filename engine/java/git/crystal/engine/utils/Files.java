@@ -1,6 +1,8 @@
 package git.crystal.engine.utils;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles everything that has to do with File related operations within our Game Engine.
@@ -67,6 +69,52 @@ public class Files {
         } catch (IOException e) {
             e.printStackTrace(System.err);
             return "nil";
+        }
+
+        return result;
+    }
+
+    public static List<String> readAllLines(String filePath) {
+        return readAllLines(filePath, true);
+    }
+
+    public static List<String> readAllLines(String filePath, boolean internal) {
+        BufferedReader br;
+        List<String> result = null;
+
+        try {
+            if(internal) {
+                InputStream is = Files.class.getResourceAsStream(filePath);
+                if(is == null)
+                    throw new IOException(String.format("Failed to load file: [%s]", filePath));
+
+                result = new ArrayList<>();
+                br = new BufferedReader(new InputStreamReader(is));
+
+                String line = br.readLine();
+                do {
+                    result.add(String.format("%s%n", line));
+                } while((line = br.readLine()) != null);
+
+                is.close();
+            } else {
+                File file = new File(filePath);
+                if(!file.exists())
+                    throw new IOException(String.format("Failed to load file: [%s]", filePath));
+
+                result = new ArrayList<>();
+                br = new BufferedReader(new FileReader(file));
+
+                String line = br.readLine();
+                do {
+                    result.add(String.format("%s%n", line));
+                } while((line = br.readLine()) != null);
+            }
+
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
+            return result;
         }
 
         return result;

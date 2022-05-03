@@ -1,6 +1,7 @@
 package git.crystal.engine.render;
 
 import git.crystal.engine.GameObject;
+import git.crystal.engine.render.mesh.Mesh;
 import git.crystal.engine.render.util.Camera;
 import git.crystal.engine.render.util.Transformation;
 import org.joml.Matrix4f;
@@ -42,6 +43,7 @@ public class Renderer {
         m_shader.createUniform("uProjectionMatrix");
         m_shader.createUniform("uModelViewMatrix");
 
+        m_shader.createUniform("uColor");
         m_shader.createUniform("uTextureSampler");
         m_shader.createUniform("uUseTexture");
     }
@@ -67,7 +69,9 @@ public class Renderer {
             Matrix4f modelViewMatrix = m_Transformation.getModelViewMatrix(obj, viewMatrix);
             m_shader.setUniform("uModelViewMatrix", modelViewMatrix);
 
+            m_shader.setUniform("uColor", mesh.getColor());
             m_shader.setUniform("uUseTexture", mesh.usesTexture() ? GL_TRUE : GL_FALSE);
+
             mesh.render();
         }
 
