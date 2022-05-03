@@ -48,12 +48,15 @@ public class Texture {
         glTexParameteri(GL_TEXTURE_2D, name, value);
     }
 
-    public void uploadData(int internalFormat, int width, int height, int format, ByteBuffer data) {
+    public void uploadData(int internalFormat, int width, int height, int format, ByteBuffer data, boolean generateMipmaps) {
         glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+
+        if(generateMipmaps)
+            glGenerateMipmap(GL_TEXTURE_2D);
     }
 
     public void uploadData(int width, int height, ByteBuffer data) {
-        uploadData(GL_RGBA8, width, height, GL_RGBA, data);
+        uploadData(GL_RGBA8, width, height, GL_RGBA, data, true);
     }
 
     public static Texture createTexture(int width, int height, ByteBuffer data) {
@@ -70,8 +73,7 @@ public class Texture {
         result.setParameter(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         result.setParameter(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        result.uploadData(GL_RGBA8, width, height, GL_RGBA, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        result.uploadData(GL_RGBA8, width, height, GL_RGBA, data, true);
 
         result.unbind();
         return result;

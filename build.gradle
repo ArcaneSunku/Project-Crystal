@@ -1,7 +1,7 @@
 import org.gradle.internal.os.OperatingSystem
 
 group 'com.github.arcanesunku'
-version '09.04.2022-SNAPSHOT'
+version '02.05.2022-SNAPSHOT'
 
 buildscript {
 
@@ -22,7 +22,7 @@ buildscript {
 allprojects {
     apply plugin: "eclipse"
 
-    version = '0.01'
+    version = '0.0.3'
     ext {
         appName = "arcane-crystal"
         lwjglVersion = "3.3.0"

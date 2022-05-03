@@ -126,7 +126,7 @@ public class CrystalEngine implements Runnable {
             accumulator += delta;
 
             while(accumulator >= interval) {
-                update(accumulator);
+                update(interval);
                 m_Timer.updateUPS();
                 accumulator -= interval;
             }
@@ -138,7 +138,8 @@ public class CrystalEngine implements Runnable {
             m_Timer.update();
 
             if(m_Timer.getTimerCount() >= 100) {
-                System.out.printf("FPS: %d, UPS: %d%n", m_Timer.getFPS(), m_Timer.getUPS());
+                String newTitle = String.format("%s | FPS: %d, UPS: %d", Window.Instance().getSettings().title, m_Timer.getFPS(), m_Timer.getUPS());
+                Window.Instance().updateDisplayTitle(newTitle);
                 m_Timer.resetTimer();
             }
 

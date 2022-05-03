@@ -2,6 +2,7 @@ package git.crystal.engine.render;
 
 import git.crystal.engine.utils.Files;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;
@@ -90,6 +91,18 @@ public class Shader {
 
     public void setUniform(String uniformName, int value) {
         glUniform1i(getUniformLocation(uniformName), value);
+    }
+
+    public void setUniform(String uniformName, float value) {
+        glUniform1f(getUniformLocation(uniformName), value);
+    }
+
+    public void setUniform(String uniformName, Vector3f value) {
+        setUniform(uniformName, value.x, value.y, value.z);
+    }
+
+    public void setUniform(String uniformName, float x, float y, float z) {
+        glUniform3f(getUniformLocation(uniformName), x, y, z);
     }
 
     public void setUniform(String uniformName, Matrix4f value) {
