@@ -16,6 +16,6 @@ void main()
     }
     else
     {
-        oColor = texture(uTextureSampler, fTextureCoords) * vec4(uColor, 1.0);
+        oColor = vec4(uColor, 1.0) * texture(uTextureSampler, fTextureCoords);
     }
 }

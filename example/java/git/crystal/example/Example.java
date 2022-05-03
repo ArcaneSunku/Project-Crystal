@@ -44,7 +44,7 @@ public class Example implements IGame {
         m_Renderer = new Renderer(shader);
         m_Settings = new Window.Settings();
 
-        m_Settings.title = "Arcane Crystal | v0.01 InDev";
+        m_Settings.title = "Arcane Crystal | v0.03 InDev";
         m_Settings.useVSync = true;
 
         m_Objects = new ArrayList<>();
@@ -117,7 +117,7 @@ public class Example implements IGame {
         float adjustedCamSpeed = CAMERA_SPEED * deltaTime;
         m_Camera.movePosition(cameraInc.x * adjustedCamSpeed, cameraInc.y * adjustedCamSpeed, cameraInc.z * adjustedCamSpeed);
 
-        if(MouseInput.isRightPressed()) {
+        if(KeyboardInput.isKeyPressed(GLFW_KEY_SPACE)) {
             Vector2f rotVec = MouseInput.getDisplayVec();
             float adjustedSpeed = MOUSE_SENSITIVITY * deltaTime;
             m_Camera.moveRotation(rotVec.x * adjustedSpeed, rotVec.y * adjustedSpeed, 0);
