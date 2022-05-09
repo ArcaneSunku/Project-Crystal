@@ -57,6 +57,8 @@ project(":engine") {
         implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
         implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
+        implementation "com.badlogicgames.ashley:ashley:1.7.3"
+
         implementation "org.lwjgl:lwjgl"
         implementation "org.lwjgl:lwjgl-assimp"
         implementation "org.lwjgl:lwjgl-glfw"
@@ -80,6 +82,8 @@ project(":example") {
 
         implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
         implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+
+        implementation "com.badlogicgames.ashley:ashley:1.7.3"
 
         implementation "org.lwjgl:lwjgl"
         implementation "org.lwjgl:lwjgl-assimp"
