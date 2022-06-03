@@ -30,6 +30,12 @@ allprojects {
         imguiVersion = '1.86.4'
 
         switch (OperatingSystem.current()) {
+            case OperatingSystem.LINUX:
+                def osArch = System.getProperty("os.arch")
+                project.ext.lwjglNatives = osArch.startsWith("arm") || osArch.startsWith("aarch64")
+                ? "natives-linux-${osArch.contains("64") || osArch.startsWith("armv8") ? "arm64" : "arm32"}"
+                        : "natives-linux"
+                break
             case OperatingSystem.WINDOWS:
                 def osArch = System.getProperty("os.arch")
                 lwjglNatives = osArch.contains("64")
