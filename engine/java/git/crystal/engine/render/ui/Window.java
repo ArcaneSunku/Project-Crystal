@@ -1,6 +1,7 @@
 package git.crystal.engine.render.ui;
 
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
@@ -78,9 +79,9 @@ public class Window {
             Instance().getSettings().height = height;
         }));
 
-        glfwSetFramebufferSizeCallback(m_glfwWindow, (((window, width, height) -> {
+        glfwSetFramebufferSizeCallback(m_glfwWindow, ((window, width, height) -> {
             glViewport(0, 0, width, height);
-        })));
+        }));
 
         return true;
     }

@@ -117,6 +117,7 @@ public class CrystalEngine implements Runnable {
         float delta, alpha;
         float accumulator = 0f;
         float interval = 1f / TARGET_UPS;
+        boolean shouldRender = true;
 
         while(mv_running) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -131,10 +132,15 @@ public class CrystalEngine implements Runnable {
                 update(interval);
                 m_Timer.updateUPS();
                 accumulator -= interval;
+                shouldRender = true;
             }
 
-            alpha = accumulator / interval;
-            render(alpha);
+            // In hopes of staggering renders we use a boolean to render when we need to
+            if(shouldRender) {
+                alpha = accumulator / interval;
+                render(alpha);
+                shouldRender = false;
+            }
 
             m_Timer.updateFPS();
             m_Timer.update();
@@ -145,6 +151,7 @@ public class CrystalEngine implements Runnable {
                 m_Timer.resetTimer();
             }
 
+            // Always update our window so we can utilize Double Buffering
             m_Window.update();
 
             if(!m_Window.getSettings().useVSync)
